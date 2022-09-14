@@ -1,0 +1,89 @@
+<!-- <p *ngFor="let country of countries">{{country}}</div> -->
+
+<form class="route-form" [formGroup]="routeForm">
+  <!-- <mat-form-field class="jesaispas" appearance="fill"> -->
+    <div>
+      <mat-label>Origin country</mat-label>
+      <input type="text"
+      placeholder="Pick one"
+      aria-label="Origin country"
+      formControlName="originCountry"
+      matInput
+      [matAutocomplete]="originCountryAuto">
+      <mat-autocomplete #originCountryAuto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOriginCountries | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </div>
+    <div>
+      <mat-label>Origin Port</mat-label>
+      <input type="text"
+             placeholder="Pick one"
+             aria-label="Origin Port"
+             formControlName="origin_port"
+             matInput
+             [matAutocomplete]="PortOriginAuto">
+      <mat-autocomplete #PortOriginAuto>
+        <mat-option *ngFor="let option of filteredOriginPorts |async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+
+    </div>
+    <div>
+      <mat-label>Destination country</mat-label>
+      <input type="text"
+             placeholder="Pick one"
+             aria-label="Destination country"
+             formControlName="destinationCountry"
+             matInput
+             [matAutocomplete]="destinationCountryAuto">
+      <mat-autocomplete #destinationCountryAuto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredDestinationCountries | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </div>
+    <div>
+      <mat-label>Destination Port</mat-label>
+      <input type="text"
+             placeholder="Pick one"
+             aria-label="Destination Port"
+             formControlName="destination_port"
+             matInput
+             [matAutocomplete]="PortDestinationAuto">
+      <mat-autocomplete #PortDestinationAuto>
+        <mat-option *ngFor="let option of filteredDestinationPorts |async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </div>
+    <div>
+      <p>
+        <mat-label>Resolution</mat-label>
+      </p>
+      <mat-radio-group aria-label="Select an option" formControlName="resolution">
+        <mat-radio-button *ngFor="let resolution of resolutions" [value]="resolution" >{{resolution}} km</mat-radio-button>
+        <!-- <mat-radio-button value="10">10 km</mat-radio-button>
+        <mat-radio-button value="20">20 km</mat-radio-button>
+        <mat-radio-button value="50">50 km</mat-radio-button>
+        <mat-radio-button value="100">100 km</mat-radio-button> -->
+      </mat-radio-group>
+    </div>
+    <button mat-button type="button" (click)="advanced=!advanced">More parameter...</button>
+    <div *ngIf="advanced">
+      More advanced
+    </div>
+    <div>
+      <button mat-button type="button" (click)="onSubmit()">Get route</button>
+    </div>
+    <div *ngIf="waiting">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      <mat-spinner></mat-spinner>
+    </div>
+    <div *ngIf="graph">
+      <plotly-plot [data]="graph.data" [layout]="graph.layout"></plotly-plot>
+    </div>
+</form>
+

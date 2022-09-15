@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PropulsionFormComponent implements OnInit {
 
+  propulsionType!: "engine" | "fuelcell"
+
   constructor() { }
 
   ngOnInit(): void {

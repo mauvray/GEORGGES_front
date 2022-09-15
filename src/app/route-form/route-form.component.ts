@@ -9,7 +9,7 @@ import { FormService } from '../services/form.service';
   templateUrl: './route-form.component.html',
   styleUrls: ['./route-form.component.sass']
 })
-export class RouteFormComponent implements OnInit {
+  export class RouteFormComponent implements OnInit {
   routeForm!: FormGroup
   // countriesPortsSubs!: Subscription
   countries!: string[]
@@ -20,37 +20,67 @@ export class RouteFormComponent implements OnInit {
   advanced = false
   waiting = false
   resolutions = [5,10,20,50,100]
-  roads!: {
-    suez: 0|1,
-    panama: 0|1,
-    malacca: 0|1,
-    gibraltar: 0|1,
-    dover: 0|1,
-    babelmandeb: 0|1,
-    kiel: 0|1,
-    corinth: 0|1,
-    northwest: 0|1,
-    northeast: 0|1,
-  }
+  // suez!: boolean
+  // panama!: boolean
+  // malacca!: boolean
+  // gibraltar!: boolean
+  // dover!: boolean
+  // babelmandeb!: boolean
+  // kiel!: boolean
+  // corinth!: boolean
+  // northwest!: boolean
+  // northeast!: boolean
+
   route!:{
     coordinates:number[][],
     type: string
   }
-  graph!:{
-    data:Object[],
-    layout:Object
-  }
+  // graph!:{
+    data!:Object[]
+    layout = {
+      geo:{
+        projection: {
+          type: "equirectangular",
+        }, // On va sans doute rajouter un switch pour sélectionner la projection
+        showocean: true,
+        oceancolor: 'rgb(0, 255, 255)',
+        showland: true,
+        landcolor: 'rgb(230, 145, 56)',
+        showlakes: true,
+        lakecolor: 'rgb(0, 255, 255)',
+        showcountries: true,
+        lonaxis: {
+            showgrid: true,
+            gridcolor: 'rgb(102, 102, 102)'
+        },
+        lataxis: {
+            showgrid: true,
+            gridcolor: 'rgb(102, 102, 102)'
+        }
+      }
+    }
+    config = {}//responsive:true}
+  // } | null
 
   constructor(private form: FormService, private client: ClientService, private formBuilder: FormBuilder) { }
 
   async ngOnInit(): Promise<void> {
     this.routeForm = this.formBuilder.group({
       originCountry: [null, [Validators.required]],
-      origin_port: [null, [Validators.required]],
+      originPort: [null, [Validators.required]],
       destinationCountry: [null, [Validators.required]],
-      destination_port: [null, [Validators.required]],
+      destinationPort: [null, [Validators.required]],
       resolution: [20, [Validators.required]],
-      // roads: [null]
+      suez: [true, [Validators.required]],
+      panama: [true, [Validators.required]],
+      malacca: [true, [Validators.required]],
+      gibraltar: [true, [Validators.required]],
+      dover: [true, [Validators.required]],
+      babelmandeb: [true, [Validators.required]],
+      kiel: [true, [Validators.required]],
+      corinth: [true, [Validators.required]],
+      northwest: [false, [Validators.required]],
+      northeast: [false, [Validators.required]],
     })
     while(!this.form.countriesPorts){
       await new Promise(r => setTimeout(r, 100));
@@ -60,7 +90,7 @@ export class RouteFormComponent implements OnInit {
       startWith(''),
       map(value => this._filterCountry(value|| '')),
     );
-    this.filteredOriginPorts = this.routeForm.controls["origin_port"].valueChanges.pipe(
+    this.filteredOriginPorts = this.routeForm.controls["originPort"].valueChanges.pipe(
       startWith(''),
       map(value => this._filterPort(value || '', this.routeForm.controls["originCountry"].value||''))
     );
@@ -68,7 +98,7 @@ export class RouteFormComponent implements OnInit {
       startWith(''),
       map(value => this._filterCountry(value|| '')),
     );
-    this.filteredDestinationPorts = this.routeForm.controls["destination_port"].valueChanges.pipe(
+    this.filteredDestinationPorts = this.routeForm.controls["destinationPort"].valueChanges.pipe(
       startWith(''),
       map(value => this._filterPort(value || '', this.routeForm.controls["destinationCountry"].value||''))
     );
@@ -84,57 +114,89 @@ export class RouteFormComponent implements OnInit {
     const filter_value = value.toLowerCase();
     if (country === '') {
       console.log("empty country");
+      // let result = [];
+      // for (let index = 0; index < this.countries.length; index++) {
+      //   result.push(this.form.countriesPorts[this.countries[index]])
+      // }
+      // return result.flat()
+      //TODO: test with a curated list of ports and countries
     }
     return this.form.countriesPorts[country]?.filter(port => port.toLowerCase().includes(filter_value))
   }
 
 
   async onSubmit(){
+    // this.graph = null;
     this.waiting = true;
     this.form.routeForm = this.routeForm.value;
     console.log(this.routeForm.value);
-    this.client.getRoute(this.form.routeForm).subscribe(
-      data => this.route = data,
-      err => this.waiting = false)
+    this.client.getRoute(this.form.routeForm).subscribe({
+      next: data => this.route = data,
+      error: (err) => {
+        this.waiting = false;
+        console.log(err)
+      }
+    })
     while(!this.route){
       await new Promise(r => setTimeout(r, 100));
     }
     console.log(this.route)
-    this.graph = {
-      data: [
-        {
-          lon: this.route.coordinates[0],
-          lat: this.route.coordinates[1],
-          type: 'scattergeo',
-          mode: 'lines'
-        }
-      ],
-      layout: {
-        geo:{
-          // projection: {
-            // type: 'orthographic',
-            // type: 'equirectangular',
-          // }, // On va sans doute rajouter un switch pour sélectionner la projection
-          showocean: true,
-          oceancolor: 'rgb(0, 255, 255)',
-          showland: true,
-          landcolor: 'rgb(230, 145, 56)',
-          showlakes: true,
-          lakecolor: 'rgb(0, 255, 255)',
-          showcountries: true,
-          lonaxis: {
-              showgrid: true,
-              gridcolor: 'rgb(102, 102, 102)'
-          },
-          lataxis: {
-              showgrid: true,
-              gridcolor: 'rgb(102, 102, 102)'
-          }
-        }
+    this.data = [
+      {
+        lon: this.route.coordinates[0],
+        lat: this.route.coordinates[1],
+        type: 'scattergeo',
+        mode: 'lines'
       }
-    }
+    ]
     this.waiting = false
 
   }
+
+  toggleProjection() {
+    console.log('toggle')
+    if (this.layout.geo.projection.type === 'equirectangular') {
+      this.layout.geo.projection.type = 'orthographic'
+    }
+    else if (this.layout.geo.projection.type === 'orthographic') {
+      this.layout.geo.projection.type = 'equirectangular'
+    }
+  }
+
+
+    // this.graph = {
+    //   data: [
+    //     {
+    //       lon: this.route.coordinates[0],
+    //       lat: this.route.coordinates[1],
+    //       type: 'scattergeo',
+    //       mode: 'lines'
+    //     }
+    //   ],
+    //   layout: {
+    //     geo:{
+    //       projection: {
+    //         type: this.projection,
+    //         // type: 'equirectangular',
+    //       }, // On va sans doute rajouter un switch pour sélectionner la projection
+    //       showocean: true,
+    //       oceancolor: 'rgb(0, 255, 255)',
+    //       showland: true,
+    //       landcolor: 'rgb(230, 145, 56)',
+    //       showlakes: true,
+    //       lakecolor: 'rgb(0, 255, 255)',
+    //       showcountries: true,
+    //       lonaxis: {
+    //           showgrid: true,
+    //           gridcolor: 'rgb(102, 102, 102)'
+    //       },
+    //       lataxis: {
+    //           showgrid: true,
+    //           gridcolor: 'rgb(102, 102, 102)'
+    //       }
+    //     }
+    //   },
+    //   config:{responsive: true}
+    // }
 
 }

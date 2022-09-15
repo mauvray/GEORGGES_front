@@ -3,61 +3,71 @@
 <form class="route-form" [formGroup]="routeForm">
   <!-- <mat-form-field class="jesaispas" appearance="fill"> -->
     <div>
-      <mat-label>Origin country</mat-label>
-      <input type="text"
-      placeholder="Pick one"
-      aria-label="Origin country"
-      formControlName="originCountry"
-      matInput
-      [matAutocomplete]="originCountryAuto">
-      <mat-autocomplete #originCountryAuto="matAutocomplete">
-        <mat-option *ngFor="let option of filteredOriginCountries | async" [value]="option">
-          {{option}}
-        </mat-option>
-      </mat-autocomplete>
+      <mat-form-field class="field" appearance="fill">
+        <mat-label>Origin country</mat-label>
+        <input type="text"
+        placeholder="Pick one"
+        aria-label="Origin country"
+        formControlName="originCountry"
+        matInput
+        [matAutocomplete]="originCountryAuto">
+        <mat-autocomplete #originCountryAuto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOriginCountries | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
     </div>
     <div>
-      <mat-label>Origin Port</mat-label>
-      <input type="text"
-             placeholder="Pick one"
-             aria-label="Origin Port"
-             formControlName="origin_port"
-             matInput
-             [matAutocomplete]="PortOriginAuto">
-      <mat-autocomplete #PortOriginAuto>
-        <mat-option *ngFor="let option of filteredOriginPorts |async" [value]="option">
-          {{option}}
-        </mat-option>
-      </mat-autocomplete>
+      <mat-form-field class="field" appearance="fill">
+        <mat-label>Origin Port</mat-label>
+        <input type="text"
+        placeholder="Pick one"
+        aria-label="Origin Port"
+        formControlName="originPort"
+        matInput
+        [matAutocomplete]="PortOriginAuto">
+        <mat-autocomplete #PortOriginAuto>
+          <mat-option *ngFor="let option of filteredOriginPorts |async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
 
     </div>
     <div>
-      <mat-label>Destination country</mat-label>
-      <input type="text"
-             placeholder="Pick one"
-             aria-label="Destination country"
-             formControlName="destinationCountry"
-             matInput
-             [matAutocomplete]="destinationCountryAuto">
-      <mat-autocomplete #destinationCountryAuto="matAutocomplete">
-        <mat-option *ngFor="let option of filteredDestinationCountries | async" [value]="option">
-          {{option}}
-        </mat-option>
-      </mat-autocomplete>
+      <mat-form-field class="field" appearance="fill">
+        <mat-label>Destination country</mat-label>
+        <input type="text"
+        placeholder="Pick one"
+        aria-label="Destination country"
+        formControlName="destinationCountry"
+        matInput
+        [matAutocomplete]="destinationCountryAuto">
+        <mat-autocomplete #destinationCountryAuto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredDestinationCountries | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
     </div>
     <div>
-      <mat-label>Destination Port</mat-label>
-      <input type="text"
-             placeholder="Pick one"
-             aria-label="Destination Port"
-             formControlName="destination_port"
-             matInput
-             [matAutocomplete]="PortDestinationAuto">
-      <mat-autocomplete #PortDestinationAuto>
-        <mat-option *ngFor="let option of filteredDestinationPorts |async" [value]="option">
-          {{option}}
-        </mat-option>
-      </mat-autocomplete>
+      <!-- <mat-form-field class="field" appearance="fill">
+      </mat-form-field> -->
+      <mat-form-field class="field" appearance="fill">
+        <mat-label>Destination Port</mat-label>
+        <input type="text"
+        placeholder="Pick one"
+        aria-label="Destination Port"
+        formControlName="destinationPort"
+        matInput
+        [matAutocomplete]="PortDestinationAuto">
+        <mat-autocomplete #PortDestinationAuto>
+          <mat-option *ngFor="let option of filteredDestinationPorts |async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
     </div>
     <div>
       <p>
@@ -73,17 +83,31 @@
     </div>
     <button mat-button type="button" (click)="advanced=!advanced">More parameter...</button>
     <div *ngIf="advanced">
-      More advanced
+      <p><mat-checkbox formControlName="suez">Suez canal</mat-checkbox></p>
+      <p><mat-checkbox formControlName="panama">Panama canal</mat-checkbox></p>
+      <p><mat-checkbox formControlName="malacca">Strait of Malacca</mat-checkbox></p>
+      <p><mat-checkbox formControlName="gibraltar">Strait of Gibraltar</mat-checkbox></p>
+      <p><mat-checkbox formControlName="dover">Strait of Dover</mat-checkbox></p>
+      <p><mat-checkbox formControlName="babelmandeb">Bab-el-Mandeb</mat-checkbox></p>
+      <p><mat-checkbox formControlName="kiel">Kiel canal</mat-checkbox></p>
+      <p><mat-checkbox formControlName="corinth">Corinth Canal</mat-checkbox></p>
+      <p><mat-checkbox formControlName="northwest">Northwest passenge</mat-checkbox></p>
+      <p><mat-checkbox formControlName="northeast">Northeast passenge</mat-checkbox></p>
     </div>
     <div>
       <button mat-button type="button" (click)="onSubmit()">Get route</button>
     </div>
     <div *ngIf="waiting">
       <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-      <mat-spinner></mat-spinner>
+      <!-- <mat-spinner></mat-spinner> -->
     </div>
-    <div *ngIf="graph">
-      <plotly-plot [data]="graph.data" [layout]="graph.layout"></plotly-plot>
+    <div class="map" *ngIf="data">
+      <!-- <div>
+        <button mat-button type="button" (click)="toggleProjection()">Toggle projection</button>
+        <button mat-button type="button" (click)="layout.geo.projection.type='equirectangular'">Equirectangular projection</button>
+        <button mat-button type="button" (click)="layout.geo.projection.type='orthographic'">Orthographic projection</button>
+      </div> -->  <!-- Pour le moment, la detection du changement e projection est vraiment mauvaise donc on ne va pas la garder ans l'application mais on peut l'y garder en commentaire et attendre de voir -->
+      <plotly-plot [updateOnDataChange]="true" [updateOnLayoutChange]="true" [data]="data" [layout]="layout" [config]="config"></plotly-plot>
     </div>
 </form>
 

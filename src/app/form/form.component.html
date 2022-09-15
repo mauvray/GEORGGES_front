@@ -1,8 +1,8 @@
 <!-- <p>form works!</p> -->
 <mat-drawer-container class="Form">
   <mat-drawer-content>
+    <p *ngIf="toShow === 'Propulsion'"> <app-propulsion-form></app-propulsion-form></p>
     <p *ngIf="toShow === 'Route'"> <app-route-form></app-route-form></p>
-    <p *ngIf="toShow === 'Engine'"> <app-engine-form></app-engine-form></p>
     <!-- <p>Un très gros truc qui pourra bouger selon l'option sélectionnée dans le mat-drawer</p>
     <p>Un très gros truc qui pourra bouger selon l'option sélectionnée dans le mat-drawer</p>
     <p>Un très gros truc qui pourra bouger selon l'option sélectionnée dans le mat-drawer</p>
@@ -11,9 +11,9 @@
   </mat-drawer-content>
   <mat-drawer #sidenav mode="side" opened disableClose="">
     <mat-list>
-      <mat-list-item><button mat-button type="button" (click)="toShow='Route'">Route</button></mat-list-item>
+      <mat-list-item><button mat-button type="button" (click)="toShow='Propulsion'">Propulsion</button></mat-list-item>
       <mat-divider></mat-divider>
-      <mat-list-item><button mat-button type="button" (click)="toShow='Engine'">Engine</button></mat-list-item>
+      <mat-list-item><button mat-button type="button" (click)="toShow='Route'">Route</button></mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item><button mat-button type="button" (click)="toShow=toShow">Next ship component</button></mat-list-item>
       <!-- Il faut rajouter les comportements onclick -->

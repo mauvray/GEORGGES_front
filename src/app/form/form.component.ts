@@ -14,7 +14,7 @@ import { SimulationService } from '../services/simulation.service';
 })
 export class FormComponent implements OnInit, OnDestroy {
   countriesPortsSubs!: Subscription
-  toShow: "Route" | "Engine" = "Route"
+  toShow: "Route" | "Propulsion" = "Propulsion"
 
   constructor(
     private client: ClientService,

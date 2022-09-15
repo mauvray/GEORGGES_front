@@ -22,12 +22,12 @@ import { PlotlyModule } from 'angular-plotly.js';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ClientService } from './services/client.service';
-import { EngineFormComponent } from './engine-form/engine-form.component';
 import { FooterComponent } from './footer/footer.component';
 import { FormComponent } from './form/form.component';
 import { HeaderComponent } from './header/header.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { MapPlotComponent } from './map-plot/map-plot.component';
+import { PropulsionFormComponent } from './propulsion-form/propulsion-form.component';
 import { RouteFormComponent } from './route-form/route-form.component';
 
 PlotlyModule.plotlyjs = PlotlyJS;
@@ -35,7 +35,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
 @NgModule({
   declarations: [
     AppComponent,
-    EngineFormComponent,
+    PropulsionFormComponent,
     FooterComponent,
     FormComponent,
     HeaderComponent,

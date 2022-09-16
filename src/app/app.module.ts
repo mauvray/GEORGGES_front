@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDividerModule} from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
@@ -14,6 +15,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTreeModule } from '@angular/material/tree';
 import { NgModule } from '@angular/core';
 
 import * as PlotlyJS from 'plotly.js-dist-min';
@@ -54,6 +56,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     MatCheckboxModule,
     MatDividerModule,
     MatFormFieldModule,
+    MatIconModule,
     MatInputModule,
     MatListModule,
     MatRadioModule,
@@ -61,6 +64,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
     MatProgressSpinnerModule,
     MatSidenavModule,
     MatToolbarModule,
+    MatTreeModule,
     ReactiveFormsModule,
     PlotlyModule,
   ],

@@ -75,13 +75,14 @@
       </p>
       <mat-radio-group aria-label="Select an option" formControlName="resolution">
         <mat-radio-button *ngFor="let resolution of resolutions" [value]="resolution" >{{resolution}} km</mat-radio-button>
+        <!-- On pourra expliquer que le calcul de route se fait à l'aide d'un maillage et que la résolution correspond à la granularité du maillage -->
         <!-- <mat-radio-button value="10">10 km</mat-radio-button>
         <mat-radio-button value="20">20 km</mat-radio-button>
         <mat-radio-button value="50">50 km</mat-radio-button>
         <mat-radio-button value="100">100 km</mat-radio-button> -->
       </mat-radio-group>
     </div>
-    <button mat-button type="button" (click)="advanced=!advanced">More parameter...</button>
+    <button mat-button type="button" (click)="advanced=!advanced">Transits points</button>
     <div *ngIf="advanced">
       <p><mat-checkbox formControlName="suez">Suez canal</mat-checkbox></p>
       <p><mat-checkbox formControlName="panama">Panama canal</mat-checkbox></p>
@@ -93,20 +94,22 @@
       <p><mat-checkbox formControlName="corinth">Corinth Canal</mat-checkbox></p>
       <p><mat-checkbox formControlName="northwest">Northwest passenge</mat-checkbox></p>
       <p><mat-checkbox formControlName="northeast">Northeast passenge</mat-checkbox></p>
+      <!-- On pourra rajouter une image de map en hover pour chacun d'entre eux -->
     </div>
     <div>
       <button mat-button type="button" (click)="onSubmit()">Get route</button>
     </div>
     <div *ngIf="waiting">
-      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-      <!-- <mat-spinner></mat-spinner> -->
+      <!-- <mat-progress-bar mode="indeterminate"></mat-progress-bar> -->
+      <mat-spinner></mat-spinner>
     </div>
     <div class="map" *ngIf="data">
       <!-- <div>
         <button mat-button type="button" (click)="toggleProjection()">Toggle projection</button>
         <button mat-button type="button" (click)="layout.geo.projection.type='equirectangular'">Equirectangular projection</button>
         <button mat-button type="button" (click)="layout.geo.projection.type='orthographic'">Orthographic projection</button>
-      </div> -->  <!-- Pour le moment, la detection du changement e projection est vraiment mauvaise donc on ne va pas la garder ans l'application mais on peut l'y garder en commentaire et attendre de voir -->
+      </div> -->  <!-- Pour le moment, la detection du changement e projection est vraiment mauvaise donc on ne va pas la garder ans l'application mais on peut l'y garder en commentaire et attendre de voir
+      On pourra aussi tester avec plusieurs layout et avec *ngIf=toShow mais ça me parrait un peu trop bourrin comme solution-->
       <plotly-plot [updateOnDataChange]="true" [updateOnLayoutChange]="true" [data]="data" [layout]="layout" [config]="config"></plotly-plot>
     </div>
 </form>

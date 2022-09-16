@@ -1,23 +1,61 @@
 <!-- <p>form works!</p> -->
-<mat-drawer-container class="Form">
-  <mat-drawer #sidenav mode="side" opened disableClose="">
-    <mat-list>
-      <mat-list-item><button mat-button type="button" (click)="toShow='Propulsion'">Propulsion</button></mat-list-item>
-      <mat-divider></mat-divider>
-      <mat-list-item><button mat-button type="button" (click)="toShow='Route'">Route</button></mat-list-item>
-      <mat-divider></mat-divider>
-      <mat-list-item><button mat-button type="button" (click)="toShow=toShow">Next ship component</button></mat-list-item>
-      <!-- Il faut rajouter les comportements onclick -->
-    </mat-list>
-  </mat-drawer>
-  <mat-drawer-content>
-    <p *ngIf="toShow === 'Propulsion'"> <app-propulsion-form></app-propulsion-form></p>
-    <!-- On va pouvoir remplacer Propulsion par Ship, avec des sous-catégories comme type, propulsion, charge... et pour chacune mettre une toolbar avec les différentes options (genre engine, fuelcell) -->
-    <p *ngIf="toShow === 'Route'"> <app-route-form></app-route-form></p>
-    <!-- <p>Un très gros truc qui pourra bouger selon l'option sélectionnée dans le mat-drawer</p>
-    <p>Un très gros truc qui pourra bouger selon l'option sélectionnée dans le mat-drawer</p>
-    <p>Un très gros truc qui pourra bouger selon l'option sélectionnée dans le mat-drawer</p>
-    <p>Un très gros truc qui pourra bouger selon l'option sélectionnée dans le mat-drawer</p> -->
-    <!-- ici on va sans doute jouer avec les directives (genre *ngIf clicked pour chaque composant) -->
-  </mat-drawer-content>
-</mat-drawer-container>
+<!-- <mat-drawer-container class="Form">
+  <mat-drawer #sidenav mode="side" opened disableClose="" class="drawer"> -->
+    <!-- On pourra probablement le passer en flex s'il s'allonge -->
+    <!-- <mat-tree>
+      <mat-nested-tree-node>
+        Ship
+        <mat-nested-tree-node>Type</mat-nested-tree-node>
+        <mat-nested-tree-node>Load</mat-nested-tree-node>
+        <mat-nested-tree-node>Propulsion</mat-nested-tree-node>
+        <mat-nested-tree-node>Hull</mat-nested-tree-node>
+        <mat-nested-tree-node>HVAC</mat-nested-tree-node>
+      </mat-nested-tree-node>
+    </mat-tree> On pourra garder le bouton avec les *ngIf (autrement dit, remplacer la liste par un arbre)-->
+    <!-- <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="config-tree">
+      <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+        <button mat-button type="button" (click)="toShow=toShow">
+          {{node.name}}
+        </button>
+      </mat-tree-node>
+      <mat-nested-tree-node *matTreeNodeDef="let node ; when hasChild">
+        <div class="mat-tree-node">
+          <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+            <mat-icon class="mat-icon-rtl-mirror">
+              {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+            </mat-icon>
+            {{node.name}}
+          </button>
+        </div>
+        <div [class.config-tree-invisible]="!treeControl.isExpanded(node)"
+          role="group">
+          <ng-container matTreeNodeOutlet></ng-container>
+        </div>
+      </mat-nested-tree-node>
+    </mat-tree> -->
+    <div class="sidenav">
+      <mat-list>
+        <mat-list-item class="list-item"><button mat-button type="button" (click)="toShowSidenav='Ship'">Ship</button></mat-list-item>
+
+        <!-- <mat-divider></mat-divider> -->
+        <mat-list-item class="list-item"><button mat-button type="button" (click)="toShowSidenav='Route'">Route</button></mat-list-item>
+        <!-- <mat-divider></mat-divider> -->
+        <mat-list-item class="list-item"><button mat-button type="button" (click)="toShowSidenav=toShowSidenav">Next ship component</button></mat-list-item>
+        <!-- Il faut rajouter les comportements onclick-->
+      </mat-list>
+    </div>
+  <!-- </mat-drawer>
+  <mat-drawer-content> -->
+    <div class="form-div">
+      <div *ngIf="toShowSidenav === 'Landing'"> Hi and welcome to GEORGGES</div>
+      <div *ngIf="toShowSidenav === 'Ship'"> <app-propulsion-form></app-propulsion-form></div>
+      <!-- On va pouvoir remplacer Propulsion par Ship, avec des sous-catégories comme type, propulsion, charge... et pour chacune mettre une toolbar avec les différentes options (genre engine, fuelcell) -->
+      <div *ngIf="toShowSidenav === 'Route'"> <app-route-form></app-route-form></div>
+      <!-- <p>Un très gros truc qui pourra bouger selon l'option sélectionnée dans le mat-drawer</p>
+        <p>Un très gros truc qui pourra bouger selon l'option sélectionnée dans le mat-drawer</p>
+        <p>Un très gros truc qui pourra bouger selon l'option sélectionnée dans le mat-drawer</p>
+        <p>Un très gros truc qui pourra bouger selon l'option sélectionnée dans le mat-drawer</p> -->
+        <!-- ici on va sans doute jouer avec les directives (genre *ngIf clicked pour chaque composant) -->
+      </div>
+  <!-- </mat-drawer-content>
+</mat-drawer-container> -->
